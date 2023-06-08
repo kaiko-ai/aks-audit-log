@@ -210,9 +210,10 @@ function create_event_hubs {
     step=$((step + 1))
     echo "Creating Event Hub: $hub_name"
     az eventhubs eventhub create --name "$hub_name" \
+        --cleanup-policy Delete \
         --namespace-name "$ehubs_name" \
         --resource-group "$resource_group" \
-        --message-retention 1 \
+        --retention-time 1 \
         --partition-count 4 \
         --output none
 
@@ -287,7 +288,7 @@ function create_deployment {
     export BlobStorageConnectionString="$blob_connection_string"
     export VerboseLevel="3"
     export ImagePullPolicy="IfNotPresent"
-    export ImageVersion="0.1.3"
+    export ImageVersion="1.2.7"
 
     curl https://raw.githubusercontent.com/sysdiglabs/aks-kubernetes-audit-log/master/deployment.yaml.in |
       envsubst > "$WORKDIR/deployment.yaml"
