@@ -290,15 +290,12 @@ function create_deployment {
     export ImagePullPolicy="IfNotPresent"
     export ImageVersion="1.2.7"
 
-    curl https://raw.githubusercontent.com/sysdiglabs/aks-kubernetes-audit-log/master/deployment.yaml.in |
-      envsubst > "$WORKDIR/deployment.yaml"
-
     echo -n "[$step/$maxsteps] "
     step=$((step + 1))
     echo "Applying Kubernetes service"
 
     KUBECONFIG="$WORKDIR/tempkubeconfig" kubectl apply \
-        -f https://raw.githubusercontent.com/sysdiglabs/aks-kubernetes-audit-log/master/service.yaml \
+        -f $WORKDIR/service.yaml \
         -n "$sysdig_namespace"
 
     echo -n "[$step/$maxsteps] "
