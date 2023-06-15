@@ -295,7 +295,7 @@ function create_deployment {
     echo "Applying Kubernetes service"
 
     KUBECONFIG="$WORKDIR/tempkubeconfig" kubectl apply \
-        -f $WORKDIR/service.yaml \
+        -f service.yaml \
         -n "$sysdig_namespace"
 
     echo -n "[$step/$maxsteps] "
@@ -303,10 +303,11 @@ function create_deployment {
     echo "Applying Kubernetes deployment"
     
     export KUBECONFIG="$WORKDIR/tempkubeconfig"
-    KUBECONFIG="$WORKDIR/tempkubeconfig" kubectl apply -f "$WORKDIR/deployment.yaml" -n "$sysdig_namespace"
+    cat deployment.yaml.in | envsubst > deployment.yaml
+    KUBECONFIG="$WORKDIR/tempkubeconfig" kubectl apply -f "deployment.yaml" -n "$sysdig_namespace"
 
     rm "$WORKDIR/tempkubeconfig"
-    rm "$WORKDIR/deployment.yaml"
+    rm "deployment.yaml"
 }
 
 # ==========================================================================================================
