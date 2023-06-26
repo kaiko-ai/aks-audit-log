@@ -52,6 +52,6 @@ spec:
             - name: BlobContainerName
               value: "kubeauditlogcontainer"
             - name: WebSinkURL
-              value: "http://sysdig-agent:7765/k8s_audit"
+              value: "http://falco-k8saudit-webhook:9765/k8s-audit"
             - name: VerboseLevel
               value: "$VerboseLevel"
